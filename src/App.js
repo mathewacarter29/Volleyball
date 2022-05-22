@@ -8,11 +8,13 @@ function App() {
   return (
     <div>
       <NavigationBar />
-      <Routes>
-        <Route path="/" element={<HomePage />}></Route>
-        <Route path="/calendar" element={<CalendarPage />}></Route>
-        <Route path="/create-new-game" element={<NewGamePage />}></Route>
-      </Routes>
+      <div style={{ marginTop: "5vw" }}>
+        <Routes>
+          <Route path="/" element={<HomePage />}></Route>
+          <Route path="/calendar" element={<CalendarPage />}></Route>
+          <Route path="/create-new-game" element={<NewGamePage />}></Route>
+        </Routes>
+      </div>
     </div>
   );
 }
