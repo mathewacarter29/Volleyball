@@ -1,5 +1,7 @@
+import NewGameForm from "../components/NewGameForm";
+
 function NewGamePage() {
-  return <div>New Game Page</div>;
+  return <NewGameForm />;
 }
 
 export default NewGamePage;
