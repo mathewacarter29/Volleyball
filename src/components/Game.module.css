@@ -14,7 +14,7 @@
 
 .game button {
   width: 7vw;
-  border-radius: 20%;
+  border-radius: 15px;
   font-size: 2vw;
   display: inline-block;
   text-align: center;

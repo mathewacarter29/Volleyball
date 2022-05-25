@@ -37,7 +37,7 @@ function CalendarPage() {
   ];
 
   return (
-    <div style={{ backgroundColor: "bisque" }}>
+    <div>
       <GameList games={DUMMY_GAMES} />
     </div>
   );

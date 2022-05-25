@@ -2,8 +2,9 @@ import Game from "./Game";
 import classes from "./GameList.module.css";
 
 function GameList(props) {
-  const games = props.games.map((game) => (
+  const games = props.games.map((game, index) => (
     <Game
+      key={index}
       date={game.date}
       start_time={game.start_time}
       end_time={game.end_time}
