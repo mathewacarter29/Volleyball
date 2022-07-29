@@ -3,3 +3,6 @@
   align-items: center;
   text-align: center;
 }
+.gamelist h1 {
+  margin-bottom: 0;
+}

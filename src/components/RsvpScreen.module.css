@@ -1,0 +1,37 @@
+.rsvp {
+  width: 80%;
+  height: 300px;
+  border: solid;
+  margin: auto;
+}
+
+.buttons {
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-around;
+}
+.buttons button {
+  height: 10vw;
+  width: 7vw;
+  border-radius: 15px;
+  font-size: 2vw;
+  text-align: center;
+  color: black;
+}
+.buttons button:hover {
+  color: white;
+}
+
+.yes {
+  background-color: lightgreen;
+}
+.yes:hover {
+  background-color: darkgreen;
+}
+
+.no {
+  background-color: salmon;
+}
+.no:hover {
+  background-color: red;
+}
