@@ -10,7 +10,7 @@ function Modal(props) {
         onClick={(e) => e.stopPropagation()}
       >
         <div className={classes.modal_header}>
-          <h3>{props.title}</h3>
+          <h2>{props.title}</h2>
         </div>
         <div className={classes.modal_body}>{props.children}</div>
         <div className={classes.modal_footer}>

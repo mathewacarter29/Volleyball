@@ -1,8 +1,7 @@
 .rsvp {
   width: 80%;
-  height: 300px;
-  border: solid;
   margin: auto;
+  padding: 5%;
 }
 
 .buttons {
@@ -11,7 +10,7 @@
   justify-content: space-around;
 }
 .buttons button {
-  height: 10vw;
+  height: 7vw;
   width: 7vw;
   border-radius: 15px;
   font-size: 2vw;
@@ -20,6 +19,11 @@
 }
 .buttons button:hover {
   color: white;
+}
+.buttons img {
+  height: 3.5vw;
+  vertical-align: middle;
+  margin: auto;
 }
 
 .yes {
@@ -34,4 +38,8 @@
 }
 .no:hover {
   background-color: red;
+}
+
+h1 {
+  margin-top: 0;
 }

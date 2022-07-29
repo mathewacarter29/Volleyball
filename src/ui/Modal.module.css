@@ -27,6 +27,7 @@
 .modal_content {
   width: 50%;
   background-color: #fff;
+  border-radius: 10px;
 }
 
 .modal_header,
