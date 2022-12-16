@@ -1,6 +1,8 @@
 import classes from "./Game.module.css";
 import edit from "../media/edit_button.png";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import firebase from "../util/firebase";
+import { getDatabase, ref, get } from "firebase/database";
 
 function Game(props) {
   const game = {
@@ -15,37 +17,56 @@ function Game(props) {
     id: props.id,
   };
 
-  const DUMMY_IN = [
-    "David Benko",
-    "George Benko",
-    "Amy Carter",
-    "Carver Vergara",
-  ];
+  // const DUMMY_IN = [
+  //   "David Benko",
+  //   "George Benko",
+  //   "Amy Carter",
+  //   "Carver Vergara",
+  // ];
 
-  const DUMMY_OUT = ["Geno", "Johnnyyyy"];
+  // const DUMMY_OUT = ["Geno", "Johnnyyyy"];
   const [isInClicked, setIsInClicked] = useState(false);
   const [isOutClicked, setIsOutClicked] = useState(false);
+  const [inPlayers, setInPlayers] = useState([]);
+  const [outPlayers, setOutPlayers] = useState([]);
+
+  useEffect(() => {
+    const db = getDatabase(firebase);
+    get(ref(db, `games/${game.id}/players`)).then((snapshot) => {
+      const data = snapshot.val();
+      let inPlayerList = [];
+      let outPlayerList = [];
+      for (const key in data) {
+        if (data[key] === "in") {
+          inPlayerList.push(key);
+        } else {
+          outPlayerList.push(key);
+        }
+      }
+      setInPlayers(inPlayerList);
+      setOutPlayers(outPlayerList);
+    });
+  }, [game.id]);
+
+  function getPlayers(rsvpStatus) {
+    const playerList = rsvpStatus === "in" ? inPlayers : outPlayers;
+    return playerList.map((player, index) => {
+      return <li key={index}>{player}</li>;
+    });
+  }
 
   return (
     <div className={classes.game_wrapper}>
       {isInClicked && (
         <div className={classes.details}>
           <h3>In</h3>
-          <ul>
-            {DUMMY_IN.map((player, index) => (
-              <li key={index}>{player}</li>
-            ))}
-          </ul>
+          <ul>{getPlayers("in")}</ul>
         </div>
       )}
       {isOutClicked && (
         <div className={classes.details}>
           <h3>Out</h3>
-          <ul>
-            {DUMMY_OUT.map((player, index) => (
-              <li key={index}>{player}</li>
-            ))}
-          </ul>
+          <ul>{getPlayers("out")}</ul>
         </div>
       )}
       <div className={classes.game}>
@@ -72,9 +93,7 @@ function Game(props) {
                 }}
                 className={classes.in_button}
               >
-                {typeof game.in !== "undefined"
-                  ? Object.keys(game.in).length
-                  : 0}
+                {inPlayers.length}
               </button>
             </div>
             <div>
@@ -86,9 +105,7 @@ function Game(props) {
                   setIsInClicked(false);
                 }}
               >
-                {typeof game.in !== "undefined"
-                  ? Object.keys(game.in).length
-                  : 0}
+                {outPlayers.length}
               </button>
             </div>
           </div>
