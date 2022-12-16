@@ -10,8 +10,10 @@ function RsvpScreen(props) {
     const dbRef = ref(db, `games/${props.gameId}/players`);
     if (res === "in") {
       await set(dbRef, { dummyName: "in" });
+      props.onClose();
     } else {
       await set(dbRef, { dummyName: "out" });
+      props.onClose();
     }
   }
 

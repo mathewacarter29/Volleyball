@@ -34,7 +34,10 @@ function GameList(props) {
 
   return showModal ? (
     <Modal onClose={() => setShowModal(false)} title={rsvpTitle}>
-      <RsvpScreen gameId={gameId}></RsvpScreen>
+      <RsvpScreen
+        gameId={gameId}
+        onClose={() => setShowModal(false)}
+      ></RsvpScreen>
     </Modal>
   ) : (
     <div className={classes.gamelist}>
