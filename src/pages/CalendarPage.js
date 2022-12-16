@@ -1,5 +1,7 @@
 import GameList from "../components/GameList";
 import { useEffect, useState } from "react";
+import firebase from "../util/firebase";
+import { getDatabase, ref, get } from "firebase/database";
 
 function CalendarPage() {
   // const DUMMY_GAMES = [
@@ -52,22 +54,22 @@ function CalendarPage() {
 
   //Get all the current games in the database
   useEffect(() => {
-    fetch("https://volleyball-25620-default-rtdb.firebaseio.com/games.json")
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        const tempGames = [];
-        for (const key in data) {
-          const game = {
-            id: key,
-            ...data[key],
-          };
-          tempGames.push(game);
-        }
-        setGames(tempGames);
-        setLoading(false);
-      });
+    const db = getDatabase(firebase);
+    // get() returns a DataSnapshot object
+    get(ref(db, "/games")).then((snapshot) => {
+      // data is taken out of a DataSnapshot with the val() function
+      const data = snapshot.val();
+      const gamesData = [];
+      for (const key in data) {
+        const game = {
+          id: key,
+          ...data[key],
+        };
+        gamesData.push(game);
+      }
+      setGames(gamesData);
+      setLoading(false);
+    });
   }, []);
 
   return !loading && <GameList games={games} />;

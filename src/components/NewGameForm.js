@@ -34,8 +34,8 @@ function NewGameForm(props) {
         minute: "2-digit",
       }),
       location: location,
-      numIn: 0,
-      numOut: 0,
+      in: {},
+      out: {},
       team: team,
       description: descriptionInputRef.current.value,
     };

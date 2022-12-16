@@ -12,6 +12,7 @@ function Game(props) {
     numOut: props.numOut,
     team: props.team,
     description: props.description,
+    id: props.id,
   };
 
   const DUMMY_IN = [
@@ -31,8 +32,8 @@ function Game(props) {
         <div className={classes.details}>
           <h3>In</h3>
           <ul>
-            {DUMMY_IN.map((player) => (
-              <li>{player}</li>
+            {DUMMY_IN.map((player, index) => (
+              <li key={index}>{player}</li>
             ))}
           </ul>
         </div>
@@ -41,8 +42,8 @@ function Game(props) {
         <div className={classes.details}>
           <h3>Out</h3>
           <ul>
-            {DUMMY_OUT.map((player) => (
-              <li>{player}</li>
+            {DUMMY_OUT.map((player, index) => (
+              <li key={index}>{player}</li>
             ))}
           </ul>
         </div>
@@ -71,7 +72,9 @@ function Game(props) {
                 }}
                 className={classes.in_button}
               >
-                {game.numIn}
+                {typeof game.in !== "undefined"
+                  ? Object.keys(game.in).length
+                  : 0}
               </button>
             </div>
             <div>
@@ -83,7 +86,9 @@ function Game(props) {
                   setIsInClicked(false);
                 }}
               >
-                {game.numOut}
+                {typeof game.in !== "undefined"
+                  ? Object.keys(game.in).length
+                  : 0}
               </button>
             </div>
           </div>
