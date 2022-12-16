@@ -111,7 +111,7 @@ function Game(props) {
           </div>
           <div>
             <h2 style={{ margin: 0 }}>
-              Time: {game.start_time} - {game.end_time}
+              {game.start_time} - {game.end_time}
             </h2>
             <h3>Location: {game.location}</h3>
             <h3>Team: {game.team}</h3>

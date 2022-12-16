@@ -4,53 +4,24 @@ import firebase from "../util/firebase";
 import { getDatabase, ref, get } from "firebase/database";
 
 function CalendarPage() {
-  // const DUMMY_GAMES = [
-  //   {
-  //     date: "May 32, 2069",
-  //     start_time: "6:00pm",
-  //     end_time: "8:00pm",
-  //     location: "Bayberry",
-  //     numIn: 10,
-  //     numOut: 2,
-  //     team: "Rye",
-  //     description: "",
-  //   },
-  //   {
-  //     date: "June 1, 2069",
-  //     start_time: "6:00pm",
-  //     end_time: "8:00pm",
-  //     location: "Bayberry",
-  //     numIn: 9,
-  //     numOut: 1,
-  //     team: "Bayberry Volleyball",
-  //     description:
-  //       "I just want to test what happens if i put a really long description for a " +
-  //       "game so i am going to keep writing as far as I can see on my screen",
-  //   },
-  //   {
-  //     date: "June 4, 2069",
-  //     start_time: "6:00pm",
-  //     end_time: "8:00pm",
-  //     location: "Bayberry",
-  //     numIn: 8,
-  //     numOut: 15,
-  //     team: "Bayberry Volleyball",
-  //     description: "",
-  //   },
-  //   {
-  //     date: "June 4, 2069",
-  //     start_time: "6:00pm",
-  //     end_time: "8:00pm",
-  //     location: "Bayberry",
-  //     numIn: 8,
-  //     numOut: 15,
-  //     team: "Clinic",
-  //     description: "This is the clinic for the kids",
-  //   },
-  // ];
-
   const [games, setGames] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  /*
+  Time will always be in the following format
+  xx:xx <Merediem Indicator>
+  */
+  function getTimeInSeconds(timeString) {
+    const defaultTimePrefix = "Thu, 01 Jan 1970";
+    const time = timeString.substring(0, timeString.length - 3);
+    let numSeconds = Date.parse(`${defaultTimePrefix} ${time}`);
+    if (timeString.endsWith(" PM")) {
+      // Add 12 hours to the time
+      // (1000 ms) * (60 sec) * (60 min) * (12 hours)
+      numSeconds += 1000 * 60 * 60 * 12;
+    }
+    return numSeconds;
+  }
 
   //Get all the current games in the database
   useEffect(() => {
@@ -65,7 +36,13 @@ function CalendarPage() {
           id: key,
           ...data[key],
         };
-        gamesData.push(game);
+        // check here if the game is after the current time
+        const expTime =
+          Date.parse(`${game.date} 00:00:00 GMT`) +
+          getTimeInSeconds(game.end_time);
+        if (expTime > Date.now()) {
+          gamesData.push(game);
+        }
       }
       setGames(gamesData);
       setLoading(false);
