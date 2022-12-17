@@ -4,7 +4,6 @@
   border-radius: 10px;
   margin-top: 20px;
   text-align: center;
-  padding: 2%;
   background-color: lightgray;
   padding: 0;
   position: relative;
@@ -13,6 +12,11 @@
 .game_wrapper {
   display: flex;
   justify-content: center;
+}
+
+.nooverflow {
+  overflow-y: hidden;
+  padding: 5px;
 }
 
 .details {
@@ -26,6 +30,7 @@
   position: absolute;
   margin-right: 5px;
   left: 13%;
+  overflow-y: auto;
 }
 .details ul {
   list-style: none;
@@ -36,11 +41,13 @@
   text-decoration: underline;
   margin: 0;
 }
+.details li {
+  border-top: solid 3px;
+}
 
 .game ul {
   list-style: none;
   list-style-position: inside;
-  padding: 0;
   text-align: left;
 }
 
@@ -127,4 +134,10 @@
 .description h4 {
   margin: 0;
   margin-right: 5px;
+}
+
+.note {
+  margin: 0;
+  border-top: solid 1px;
+  border-radius: 5px;
 }

@@ -3,18 +3,25 @@ import thumbsUp from "../media/thumbs_up.png";
 import thumbsDown from "../media/thumbs_down.png";
 import firebase from "../util/firebase";
 import { getDatabase, ref, set } from "firebase/database";
+import { useRef } from "react";
 
 function RsvpScreen(props) {
+  const dummyName = "no note";
+  const descriptionInputRef = useRef();
+
   async function rsvp(res) {
     const db = getDatabase(firebase);
-    const dbRef = ref(db, `games/${props.gameId}/players`);
-    if (res === "in") {
-      await set(dbRef, { dummyName: "in" });
-      props.onClose();
-    } else {
-      await set(dbRef, { dummyName: "out" });
-      props.onClose();
+    const dbRef = ref(db, `games/${props.gameId}/players/${dummyName}`);
+
+    let value = res;
+    if (descriptionInputRef.current.value !== "") {
+      console.log("description was not empty");
+      value += ` ${descriptionInputRef.current.value}`;
     }
+    let obj = {};
+    obj[dummyName] = value;
+    await set(dbRef, value);
+    props.onClose();
   }
 
   return (
@@ -27,6 +34,10 @@ function RsvpScreen(props) {
         <button className={classes.no} onClick={() => rsvp("out")}>
           <img src={thumbsDown} alt={thumbsDown}></img>
         </button>
+      </div>
+      <div className={classes.description}>
+        <label htmlFor="description">Note</label>
+        <textarea id="description" rows="5" ref={descriptionInputRef} />
       </div>
     </div>
   );

@@ -23,8 +23,6 @@ function GameList(props) {
       start_time={game.start_time}
       end_time={game.end_time}
       location={game.location}
-      in={game.in}
-      out={game.out}
       team={game.team}
       description={game.description}
       pressedRsvp={rsvp}

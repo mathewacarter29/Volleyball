@@ -37,10 +37,17 @@ function Game(props) {
       let inPlayerList = [];
       let outPlayerList = [];
       for (const key in data) {
-        if (data[key] === "in") {
-          inPlayerList.push(key);
+        let [status, ...note] = data[key].split(" ");
+        note = note.join(" ");
+        const player = {
+          name: key,
+          note: note,
+        };
+        // if you split data, split[0] is the stat
+        if (status === "in") {
+          inPlayerList.push(player);
         } else {
-          outPlayerList.push(key);
+          outPlayerList.push(player);
         }
       }
       setInPlayers(inPlayerList);
@@ -51,16 +58,23 @@ function Game(props) {
   function getPlayers(rsvpStatus) {
     const playerList = rsvpStatus === "in" ? inPlayers : outPlayers;
     return playerList.map((player, index) => {
-      return <li key={index}>{player}</li>;
+      return (
+        <div key={index}>
+          <li>{player.name}</li>
+          <p className={classes.note}>{player.note}</p>
+        </div>
+      );
     });
   }
 
   return (
     <div className={classes.game_wrapper}>
       {isInClicked && (
-        <div className={classes.details}>
-          <h3>In</h3>
-          <ul>{getPlayers("in")}</ul>
+        <div className={classes.nooverflow}>
+          <div className={classes.details}>
+            <h3>In</h3>
+            <ul>{getPlayers("in")}</ul>
+          </div>
         </div>
       )}
       {isOutClicked && (

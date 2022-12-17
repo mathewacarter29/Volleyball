@@ -43,3 +43,12 @@
 h1 {
   margin-top: 0;
 }
+
+.description {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+.description textarea {
+  background-color: #e0e0e0;
+}
