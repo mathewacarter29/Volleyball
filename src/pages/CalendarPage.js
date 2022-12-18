@@ -7,22 +7,6 @@ function CalendarPage() {
   const [games, setGames] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  /*
-  Time will always be in the following format
-  xx:xx <Merediem Indicator>
-  */
-  function getTimeInSeconds(timeString) {
-    const defaultTimePrefix = "Thu, 01 Jan 1970";
-    const time = timeString.substring(0, timeString.length - 3);
-    let numSeconds = Date.parse(`${defaultTimePrefix} ${time}`);
-    if (timeString.endsWith(" PM")) {
-      // Add 12 hours to the time
-      // (1000 ms) * (60 sec) * (60 min) * (12 hours)
-      numSeconds += 1000 * 60 * 60 * 12;
-    }
-    return numSeconds;
-  }
-
   //Get all the current games in the database
   useEffect(() => {
     const db = getDatabase(firebase);
@@ -32,15 +16,30 @@ function CalendarPage() {
       const data = snapshot.val();
       const gamesData = [];
       for (const key in data) {
+        const start = new Date(data[key].start_time);
+        const end = new Date(data[key].end_time);
         const game = {
           id: key,
-          ...data[key],
+          date: start.toLocaleDateString("en-US", {
+            day: "numeric",
+            weekday: "long",
+            month: "long",
+            year: "numeric",
+          }),
+          start_time: start.toLocaleTimeString([], {
+            hour: "numeric",
+            minute: "2-digit",
+          }),
+          end_time: end.toLocaleTimeString([], {
+            hour: "numeric",
+            minute: "2-digit",
+          }),
+          location: data[key].location,
+          team: data[key].team,
+          description: data[key].description,
         };
         // check here if the game is after the current time
-        const expTime =
-          Date.parse(`${game.date} 00:00:00 GMT`) +
-          getTimeInSeconds(game.end_time);
-        if (expTime > Date.now()) {
+        if (end.getTime() > Date.now()) {
           gamesData.push(game);
         }
       }

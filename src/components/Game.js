@@ -13,8 +13,6 @@ function Game(props) {
     start_time: props.start_time,
     end_time: props.end_time,
     location: props.location,
-    numIn: props.numIn,
-    numOut: props.numOut,
     team: props.team,
     description: props.description,
     id: props.id,
@@ -92,7 +90,7 @@ function Game(props) {
           <img src={edit} alt={edit} />
         </button>
 
-        <div style={{ display: "flex" }}>
+        <div style={{ display: "flex", justifyContent: "space-evenly" }}>
           <div className={classes.players}>
             <div>
               <h3 style={{ margin: 0 }}>In</h3>

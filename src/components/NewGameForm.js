@@ -9,33 +9,57 @@ function NewGameForm(props) {
   //const DUMMY_LOCATIONS = ["Bayberry", "Rye"];
   //const DUMMY_TEAMS = ["Bayberry Volleyball", "Clinic", "Rye Beach Volleyball"];
 
-  const [date, setDate] = useState(new Date());
   const [startTime, setStartTime] = useState(new Date());
   const [endTime, setEndTime] = useState(new Date());
   const [location, setLocation] = useState(props.locations[0]);
   const descriptionInputRef = useRef();
   const [team, setTeam] = useState(props.teams[0]);
+  const [date, setDate] = useState(new Date());
+  function setEventDate(date) {
+    setDate(date);
+    // set start time date to this date
+    setStartTime((prevState) => {
+      prevState.setUTCFullYear(date.getUTCFullYear());
+      prevState.setUTCMonth(date.getUTCMonth());
+      prevState.setUTCDate(date.getUTCDate());
+      return prevState;
+    });
+    // set end time date to this date
+    setEndTime((prevState) => {
+      prevState.setUTCFullYear(date.getUTCFullYear());
+      prevState.setUTCMonth(date.getUTCMonth());
+      prevState.setUTCDate(date.getUTCDate());
+      return prevState;
+    });
+  }
 
   function createHandler(event) {
     event.preventDefault();
+    // const game = {
+    //   date: date.toLocaleDateString("en-US", {
+    //     day: "numeric",
+    //     weekday: "long",
+    //     month: "long",
+    //     year: "numeric",
+    //   }),
+    //   start_time: startTime.toLocaleTimeString([], {
+    //     hour: "numeric",
+    //     minute: "2-digit",
+    //   }),
+    //   end_time: endTime.toLocaleTimeString([], {
+    //     hour: "numeric",
+    //     minute: "2-digit",
+    //   }),
+    //   location: location,
+    //   in: {},
+    //   out: {},
+    //   team: team,
+    //   description: descriptionInputRef.current.value,
+    // };
     const game = {
-      date: date.toLocaleDateString("en-US", {
-        day: "numeric",
-        weekday: "long",
-        month: "long",
-        year: "numeric",
-      }),
-      start_time: startTime.toLocaleTimeString([], {
-        hour: "numeric",
-        minute: "2-digit",
-      }),
-      end_time: endTime.toLocaleTimeString([], {
-        hour: "numeric",
-        minute: "2-digit",
-      }),
+      start_time: startTime.toISOString(),
+      end_time: endTime.toISOString(),
       location: location,
-      in: {},
-      out: {},
       team: team,
       description: descriptionInputRef.current.value,
     };
@@ -59,7 +83,7 @@ function NewGameForm(props) {
             <DatePicker
               label="Date"
               value={date}
-              onChange={(date) => setDate(date)}
+              onChange={(date) => setEventDate(date)}
               renderInput={(params) => <TextField {...params} />}
             />
           </LocalizationProvider>
