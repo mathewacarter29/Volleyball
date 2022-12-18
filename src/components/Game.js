@@ -56,7 +56,7 @@ function Game(props) {
       setInPlayers(inPlayerList);
       setOutPlayers(outPlayerList);
     });
-  }, [game.id]);
+  }, [game.id, isRsvpClicked]);
 
   return (
     <div className={classes.game_wrapper}>
