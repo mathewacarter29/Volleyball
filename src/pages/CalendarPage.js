@@ -1,7 +1,13 @@
 import GameList from "../components/GameList";
 import { useEffect, useState } from "react";
 import firebase from "../util/firebase";
-import { getDatabase, ref, get } from "firebase/database";
+import {
+  getDatabase,
+  ref,
+  orderByChild,
+  query,
+  onValue,
+} from "firebase/database";
 
 function CalendarPage() {
   const [games, setGames] = useState([]);
@@ -10,16 +16,17 @@ function CalendarPage() {
   //Get all the current games in the database
   useEffect(() => {
     const db = getDatabase(firebase);
-    // get() returns a DataSnapshot object
-    get(ref(db, "/games")).then((snapshot) => {
-      // data is taken out of a DataSnapshot with the val() function
-      const data = snapshot.val();
+    const gamesQuery = query(ref(db, "games"), orderByChild("start_time"));
+    // onValue executes the query and uses a function to use the snapshot
+    onValue(gamesQuery, (snapshot) => {
       const gamesData = [];
-      for (const key in data) {
-        const start = new Date(data[key].start_time);
-        const end = new Date(data[key].end_time);
+      // using forEach ensures the order of the query is preserved
+      snapshot.forEach((childSnapshot) => {
+        const data = childSnapshot.val();
+        const start = new Date(data.start_time);
+        const end = new Date(data.end_time);
         const game = {
-          id: key,
+          id: childSnapshot.key,
           date: start.toLocaleDateString("en-US", {
             day: "numeric",
             weekday: "long",
@@ -34,15 +41,15 @@ function CalendarPage() {
             hour: "numeric",
             minute: "2-digit",
           }),
-          location: data[key].location,
-          team: data[key].team,
-          description: data[key].description,
+          location: data.location,
+          team: data.team,
+          description: data.description,
         };
         // check here if the game is after the current time
         if (end.getTime() > Date.now()) {
           gamesData.push(game);
         }
-      }
+      });
       setGames(gamesData);
       setLoading(false);
     });
