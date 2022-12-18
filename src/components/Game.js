@@ -5,6 +5,7 @@ import firebase from "../util/firebase";
 import { getDatabase, ref, get } from "firebase/database";
 import PlayerStatusMenu from "../ui/PlayerStatusMenu";
 import Modal from "../ui/Modal";
+import RsvpScreen from "./RsvpScreen";
 
 function Game(props) {
   const game = {
@@ -30,6 +31,7 @@ function Game(props) {
   const [isStatusClicked, setIsStatusClicked] = useState(false);
   const [inPlayers, setInPlayers] = useState([]);
   const [outPlayers, setOutPlayers] = useState([]);
+  const [isRsvpClicked, setIsRsvpClicked] = useState(false);
 
   useEffect(() => {
     const db = getDatabase(firebase);
@@ -69,11 +71,19 @@ function Game(props) {
           ></PlayerStatusMenu>
         </Modal>
       )}
-      <div className={classes.game}>
-        <button
-          className={classes.rsvp}
-          onClick={() => props.pressedRsvp(game)}
+      {isRsvpClicked && (
+        <Modal
+          onClose={() => setIsRsvpClicked(false)}
+          title={`Game on ${game.date} at ${game.start_time}`}
         >
+          <RsvpScreen
+            gameId={game.id}
+            onClose={() => setIsRsvpClicked(false)}
+          ></RsvpScreen>
+        </Modal>
+      )}
+      <div className={classes.game}>
+        <button className={classes.rsvp} onClick={() => setIsRsvpClicked(true)}>
           RSVP
         </button>
 

@@ -1,21 +1,7 @@
 import Game from "./Game";
 import classes from "./GameList.module.css";
-import Modal from "../ui/Modal";
-import { useState } from "react";
-import RsvpScreen from "./RsvpScreen";
 
 function GameList(props) {
-  const [showModal, setShowModal] = useState(false);
-  const [rsvpTitle, setRsvpTitle] = useState("");
-  const [gameId, setGameId] = useState("");
-
-  function rsvp(game) {
-    const title = game.date + " - " + game.start_time;
-    setRsvpTitle(title);
-    setGameId(game.id);
-    setShowModal(true);
-  }
-
   const games = props.games.map((game) => (
     <Game
       key={game.id}
@@ -25,22 +11,20 @@ function GameList(props) {
       location={game.location}
       team={game.team}
       description={game.description}
-      pressedRsvp={rsvp}
       id={game.id}
     ></Game>
   ));
 
-  return showModal ? (
-    <Modal onClose={() => setShowModal(false)} title={rsvpTitle}>
-      <RsvpScreen
-        gameId={gameId}
-        onClose={() => setShowModal(false)}
-      ></RsvpScreen>
-    </Modal>
-  ) : (
+  return (
     <div className={classes.gamelist}>
       <h1>Upcoming Games</h1>
-      {games}
+      {games.length !== 0 ? (
+        games
+      ) : (
+        <h1 style={{ marginTop: "15%", fontSize: "5vw" }}>
+          No currently scheduled games
+        </h1>
+      )}
     </div>
   );
 }
