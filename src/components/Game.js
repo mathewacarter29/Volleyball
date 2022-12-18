@@ -3,6 +3,8 @@ import edit from "../media/edit_button.png";
 import { useState, useEffect } from "react";
 import firebase from "../util/firebase";
 import { getDatabase, ref, get } from "firebase/database";
+import PlayerStatusMenu from "../ui/PlayerStatusMenu";
+import Modal from "../ui/Modal";
 
 function Game(props) {
   const game = {
@@ -25,8 +27,7 @@ function Game(props) {
   // ];
 
   // const DUMMY_OUT = ["Geno", "Johnnyyyy"];
-  const [isInClicked, setIsInClicked] = useState(false);
-  const [isOutClicked, setIsOutClicked] = useState(false);
+  const [isStatusClicked, setIsStatusClicked] = useState(false);
   const [inPlayers, setInPlayers] = useState([]);
   const [outPlayers, setOutPlayers] = useState([]);
 
@@ -55,33 +56,18 @@ function Game(props) {
     });
   }, [game.id]);
 
-  function getPlayers(rsvpStatus) {
-    const playerList = rsvpStatus === "in" ? inPlayers : outPlayers;
-    return playerList.map((player, index) => {
-      return (
-        <div key={index}>
-          <li>{player.name}</li>
-          <p className={classes.note}>{player.note}</p>
-        </div>
-      );
-    });
-  }
-
   return (
     <div className={classes.game_wrapper}>
-      {isInClicked && (
-        <div className={classes.nooverflow}>
-          <div className={classes.details}>
-            <h3>In</h3>
-            <ul>{getPlayers("in")}</ul>
-          </div>
-        </div>
-      )}
-      {isOutClicked && (
-        <div className={classes.details}>
-          <h3>Out</h3>
-          <ul>{getPlayers("out")}</ul>
-        </div>
+      {isStatusClicked && (
+        <Modal
+          title={`Game on ${game.date} at ${game.start_time}`}
+          onClose={() => setIsStatusClicked(false)}
+        >
+          <PlayerStatusMenu
+            inPlayers={inPlayers}
+            outPlayers={outPlayers}
+          ></PlayerStatusMenu>
+        </Modal>
       )}
       <div className={classes.game}>
         <button
@@ -102,8 +88,7 @@ function Game(props) {
               <h3 style={{ margin: 0 }}>In</h3>
               <button
                 onClick={() => {
-                  setIsInClicked((prevState) => !prevState);
-                  setIsOutClicked(false);
+                  setIsStatusClicked(true);
                 }}
                 className={classes.in_button}
               >
@@ -115,8 +100,7 @@ function Game(props) {
               <button
                 className={classes.out_button}
                 onClick={() => {
-                  setIsOutClicked((prevState) => !prevState);
-                  setIsInClicked(false);
+                  setIsStatusClicked(true);
                 }}
               >
                 {outPlayers.length}
