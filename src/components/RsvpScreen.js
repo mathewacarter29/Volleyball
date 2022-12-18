@@ -15,7 +15,6 @@ function RsvpScreen(props) {
 
     let value = res;
     if (descriptionInputRef.current.value !== "") {
-      console.log("description was not empty");
       value += ` ${descriptionInputRef.current.value}`;
     }
     let obj = {};
