@@ -17,7 +17,7 @@ function GameList(props) {
 
   return (
     <div className={classes.gamelist}>
-      <h1>Upcoming Games</h1>
+      <h1 style={{ marginTop: "90px" }}>Upcoming Games</h1>
       {games.length !== 0 ? (
         games
       ) : (
@@ -25,6 +25,8 @@ function GameList(props) {
           No currently scheduled games
         </h1>
       )}
+      {/*Below div is for spacing at the bottom of the page */}
+      <div style={{ height: "50px" }}></div>
     </div>
   );
 }
