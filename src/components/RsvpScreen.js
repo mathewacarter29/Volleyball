@@ -3,11 +3,18 @@ import thumbsUp from "../media/thumbs_up.png";
 import thumbsDown from "../media/thumbs_down.png";
 import firebase from "../util/firebase";
 import { getDatabase, ref, set } from "firebase/database";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 function RsvpScreen(props) {
+  const ButtonStatus = {
+    None: "none",
+    ThumbsUp: "thumbsup",
+    ThumpsDown: "thumbsdown",
+  };
+
   const dummyName = "no note";
   const descriptionInputRef = useRef();
+  const [buttonSelected, setButtonSelected] = useState(ButtonStatus.None);
 
   async function rsvp(res) {
     const db = getDatabase(firebase);
@@ -27,10 +34,24 @@ function RsvpScreen(props) {
     <div className={classes.rsvp}>
       <h1>Will you come to this game?</h1>
       <div className={classes.buttons}>
-        <button className={classes.yes} onClick={() => rsvp("in")}>
+        <button
+          className={
+            buttonSelected === ButtonStatus.ThumbsUp
+              ? classes.yes_selected
+              : classes.yes
+          }
+          onClick={() => setButtonSelected(ButtonStatus.ThumbsUp)}
+        >
           <img src={thumbsUp} alt={thumbsUp}></img>
         </button>
-        <button className={classes.no} onClick={() => rsvp("out")}>
+        <button
+          className={
+            buttonSelected === ButtonStatus.ThumbsDown
+              ? classes.no_selected
+              : classes.no
+          }
+          onClick={() => setButtonSelected(ButtonStatus.ThumbsDown)}
+        >
           <img src={thumbsDown} alt={thumbsDown}></img>
         </button>
       </div>

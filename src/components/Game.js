@@ -73,6 +73,7 @@ function Game(props) {
         <Modal
           onClose={() => setIsRsvpClicked(false)}
           title={`Game on ${game.date} at ${game.start_time}`}
+          submitButton
         >
           <RsvpScreen
             gameId={game.id}

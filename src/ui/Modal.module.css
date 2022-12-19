@@ -13,7 +13,7 @@
 }
 
 .button {
-  width: 7vw;
+  width: 8vw;
   border-radius: 15px;
   font-size: 2vw;
   display: inline-block;
@@ -22,6 +22,14 @@
 }
 .button:hover {
   background-color: darkgray;
+  color: white;
+}
+
+.submit {
+  background-color: lightgreen;
+}
+.submit:hover {
+  background-color: darkgreen;
   color: white;
 }
 
@@ -34,6 +42,8 @@
 .modal_header,
 .modal_footer {
   padding: 10px;
+  display: flex;
+  justify-content: space-around;
 }
 
 .modal_title {

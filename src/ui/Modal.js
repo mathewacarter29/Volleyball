@@ -17,6 +17,14 @@ function Modal(props) {
           <button onClick={props.onClose} className={classes.button}>
             Close
           </button>
+          {props.submitButton && (
+            <button
+              onClick={props.onClose}
+              className={`${classes.button} ${classes.submit}`}
+            >
+              Submit
+            </button>
+          )}
         </div>
       </div>
     </div>
