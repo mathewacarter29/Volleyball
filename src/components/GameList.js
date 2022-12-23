@@ -5,6 +5,7 @@ function GameList(props) {
   const games = props.games.map((game) => (
     <Game
       key={game.id}
+      day={game.day}
       date={game.date}
       start_time={game.start_time}
       end_time={game.end_time}

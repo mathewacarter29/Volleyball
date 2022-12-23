@@ -29,6 +29,7 @@ function NewGameForm(props) {
       prevState.setUTCFullYear(date.getUTCFullYear());
       prevState.setUTCMonth(date.getUTCMonth());
       prevState.setUTCDate(date.getUTCDate());
+
       return prevState;
     });
   }
@@ -95,6 +96,9 @@ function NewGameForm(props) {
                 label="Start Time"
                 value={startTime}
                 onChange={(time) => {
+                  time.setUTCFullYear(date.getUTCFullYear());
+                  time.setUTCMonth(date.getUTCMonth());
+                  time.setUTCDate(date.getUTCDate());
                   setStartTime(time);
                   let newEndTime = new Date(time.valueOf());
                   newEndTime.setHours(newEndTime.getHours() + 2);
@@ -111,6 +115,9 @@ function NewGameForm(props) {
                 label="End Time"
                 value={endTime}
                 onChange={(time) => {
+                  time.setUTCFullYear(date.getUTCFullYear());
+                  time.setUTCMonth(date.getUTCMonth());
+                  time.setUTCDate(date.getUTCDate());
                   setEndTime(time);
                 }}
                 renderInput={(params) => (

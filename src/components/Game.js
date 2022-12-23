@@ -9,6 +9,7 @@ import RsvpScreen from "./RsvpScreen";
 
 function Game(props) {
   const game = {
+    day: props.day,
     date: props.date,
     start_time: props.start_time,
     end_time: props.end_time,
@@ -18,14 +19,6 @@ function Game(props) {
     id: props.id,
   };
 
-  // const DUMMY_IN = [
-  //   "David Benko",
-  //   "George Benko",
-  //   "Amy Carter",
-  //   "Carver Vergara",
-  // ];
-
-  // const DUMMY_OUT = ["Geno", "Johnnyyyy"];
   const [isStatusClicked, setIsStatusClicked] = useState(false);
   const [inPlayers, setInPlayers] = useState([]);
   const [outPlayers, setOutPlayers] = useState([]);
@@ -80,8 +73,8 @@ function Game(props) {
         <button className={classes.rsvp} onClick={() => setIsRsvpClicked(true)}>
           RSVP
         </button>
-
-        <h2 className={classes.date}>{game.date}</h2>
+        <h2 className={classes.date}>{game.day}</h2>
+        <h3 className={classes.date}>{game.date}</h3>
         <button className={classes.edit}>
           <img src={edit} alt={edit} />
         </button>

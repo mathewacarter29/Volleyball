@@ -27,9 +27,11 @@ function CalendarPage() {
         const end = new Date(data.end_time);
         const game = {
           id: childSnapshot.key,
+          day: new Intl.DateTimeFormat("en-US", { weekday: "long" }).format(
+            start
+          ),
           date: start.toLocaleDateString("en-US", {
             day: "numeric",
-            weekday: "long",
             month: "long",
             year: "numeric",
           }),
@@ -49,6 +51,7 @@ function CalendarPage() {
         if (end.getTime() > Date.now()) {
           gamesData.push(game);
         }
+        console.log(game);
       });
       setGames(gamesData);
       setLoading(false);
