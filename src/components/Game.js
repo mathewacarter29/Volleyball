@@ -70,16 +70,11 @@ function Game(props) {
         </Modal>
       )}
       {isRsvpClicked && (
-        <Modal
+        <RsvpScreen
+          gameId={game.id}
           onClose={() => setIsRsvpClicked(false)}
           title={`Game on ${game.date} at ${game.start_time}`}
-          submitButton
-        >
-          <RsvpScreen
-            gameId={game.id}
-            onClose={() => setIsRsvpClicked(false)}
-          ></RsvpScreen>
-        </Modal>
+        ></RsvpScreen>
       )}
       <div className={classes.game}>
         <button className={classes.rsvp} onClick={() => setIsRsvpClicked(true)}>

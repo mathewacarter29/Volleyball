@@ -2,13 +2,6 @@ import React from "react";
 import classes from "./Modal.module.css";
 
 function Modal(props) {
-  // When we click the submit button, we want to send some data (perform a function)
-  // THEN close out the Modal
-  function doOnSubmit() {
-    props.onSubmit();
-    props.onClose();
-  }
-
   return (
     <div className={classes.modal} onClick={props.onClose}>
       <div
@@ -24,14 +17,6 @@ function Modal(props) {
           <button onClick={props.onClose} className={classes.button}>
             Close
           </button>
-          {props.submitButton && (
-            <button
-              onClick={() => doOnSubmit()}
-              className={`${classes.button} ${classes.submit}`}
-            >
-              Submit
-            </button>
-          )}
         </div>
       </div>
     </div>
