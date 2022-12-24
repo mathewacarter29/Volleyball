@@ -6,6 +6,7 @@ import { getDatabase, ref, get } from "firebase/database";
 import PlayerStatusMenu from "../ui/PlayerStatusMenu";
 import Modal from "../ui/Modal";
 import RsvpScreen from "./RsvpScreen";
+import EditModal from "./EditModal";
 
 function Game(props) {
   const game = {
@@ -23,6 +24,7 @@ function Game(props) {
   const [inPlayers, setInPlayers] = useState([]);
   const [outPlayers, setOutPlayers] = useState([]);
   const [isRsvpClicked, setIsRsvpClicked] = useState(false);
+  const [isEditClicked, setIsEditClicked] = useState(false);
 
   useEffect(() => {
     const db = getDatabase(firebase);
@@ -69,13 +71,19 @@ function Game(props) {
           title={`Game on ${game.date} at ${game.start_time}`}
         ></RsvpScreen>
       )}
+      {isEditClicked && (
+        <EditModal
+          onClose={() => setIsEditClicked(false)}
+          title={`Game on ${game.date} at ${game.start_time}`}
+        ></EditModal>
+      )}
       <div className={classes.game}>
         <button className={classes.rsvp} onClick={() => setIsRsvpClicked(true)}>
           RSVP
         </button>
         <h2 className={classes.date}>{game.day}</h2>
         <h3 className={classes.date}>{game.date}</h3>
-        <button className={classes.edit}>
+        <button className={classes.edit} onClick={() => setIsEditClicked(true)}>
           <img src={edit} alt={edit} />
         </button>
 
