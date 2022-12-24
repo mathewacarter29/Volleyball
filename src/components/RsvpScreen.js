@@ -5,6 +5,7 @@ import thumbsDown from "../media/thumbs_down.png";
 import firebase from "../util/firebase";
 import { getDatabase, ref, set } from "firebase/database";
 import { useRef, useState } from "react";
+import ErrorMessage from "../ui/ErrorMessage";
 
 function RsvpScreen(props) {
   const dummyName = "Dummy McDumbdumb";
@@ -13,10 +14,22 @@ function RsvpScreen(props) {
     ThumbsUp: "in",
     ThumbsDown: "out",
   };
+  const defaultError = { title: "", message: "" };
   const descriptionInputRef = useRef();
   const [buttonSelected, setButtonSelected] = useState(ButtonStatus.None);
+  const [error, setError] = useState(defaultError);
 
   async function rsvp() {
+    if (buttonSelected === ButtonStatus.None) {
+      const error = {
+        title: "No RSVP Status Selected",
+        message:
+          'You must click "In" or "Out" button in order to submit your RSVP status',
+      };
+      setError(error);
+      setTimeout(() => setError(defaultError), 10000);
+      return;
+    }
     const db = getDatabase(firebase);
     const dbRef = ref(db, `games/${props.gameId}/players/${dummyName}`);
 
@@ -29,7 +42,6 @@ function RsvpScreen(props) {
     await set(dbRef, value);
     props.onClose();
   }
-
   return (
     <div className={modalClasses.modal} onClick={props.onClose}>
       <div
@@ -43,6 +55,11 @@ function RsvpScreen(props) {
         <div className={modalClasses.modal_body}>
           {/*Below starts the RSVP component */}
           <div className={classes.rsvp}>
+            {/*Checking if two javascript objects have all the same values is annoying
+            instead, just check all the values inside it */}
+            {error.title !== "" && error.message !== "" && (
+              <ErrorMessage title={error.title} message={error.message} />
+            )}
             <h1>Will you come to this game?</h1>
             <div className={classes.buttons}>
               <button
