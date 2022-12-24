@@ -51,6 +51,16 @@ function NewGameForm(props) {
 
       return;
     }
+    if (new Date().valueOf() > startTime.valueOf()) {
+      const newError = {
+        title: "This Game Is Scheduled In The Past",
+        message: "Make sure the game is scheduled after the current date",
+      };
+      setError(newError);
+      setTimeout(() => setError(defaultError), 10000);
+
+      return;
+    }
     // const game = {
     //   date: date.toLocaleDateString("en-US", {
     //     day: "numeric",
