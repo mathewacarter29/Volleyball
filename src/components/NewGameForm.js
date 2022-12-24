@@ -4,10 +4,12 @@ import { DatePicker, LocalizationProvider, TimePicker } from "@mui/lab";
 import { TextField } from "@mui/material";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import Dropdown from "../ui/Dropdown";
+import ErrorMessage from "../ui/ErrorMessage";
 
 function NewGameForm(props) {
   //const DUMMY_LOCATIONS = ["Bayberry", "Rye"];
   //const DUMMY_TEAMS = ["Bayberry Volleyball", "Clinic", "Rye Beach Volleyball"];
+  const defaultError = { title: "", message: "" };
 
   const [startTime, setStartTime] = useState(new Date());
   const [endTime, setEndTime] = useState(new Date());
@@ -15,6 +17,8 @@ function NewGameForm(props) {
   const descriptionInputRef = useRef();
   const [team, setTeam] = useState(props.teams[0]);
   const [date, setDate] = useState(new Date());
+  const [error, setError] = useState(defaultError);
+
   function setEventDate(date) {
     setDate(date);
     // set start time date to this date
@@ -35,7 +39,18 @@ function NewGameForm(props) {
   }
 
   function createHandler(event) {
+    // prevents the form from being submitted (another unnecessary POST request)
     event.preventDefault();
+    if (startTime.valueOf() > endTime.valueOf()) {
+      const newError = {
+        title: "End Time Before Start Time",
+        message: "Make sure the end time of the game is after the start time",
+      };
+      setError(newError);
+      setTimeout(() => setError(defaultError), 10000);
+
+      return;
+    }
     // const game = {
     //   date: date.toLocaleDateString("en-US", {
     //     day: "numeric",
@@ -82,6 +97,9 @@ function NewGameForm(props) {
       style={{ marginTop: "90px" }}
     >
       <h2>Create a new game</h2>
+      {error.title !== "" && error.message !== "" && (
+        <ErrorMessage title={error.title} message={error.message} />
+      )}
       <div className={classes.pickers}>
         <div className={classes.grey}>
           <LocalizationProvider dateAdapter={AdapterDateFns}>

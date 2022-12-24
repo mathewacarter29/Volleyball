@@ -21,12 +21,12 @@ function RsvpScreen(props) {
 
   async function rsvp() {
     if (buttonSelected === ButtonStatus.None) {
-      const error = {
+      const newError = {
         title: "No RSVP Status Selected",
         message:
           'You must click "In" or "Out" button in order to submit your RSVP status',
       };
-      setError(error);
+      setError(newError);
       setTimeout(() => setError(defaultError), 10000);
       return;
     }
