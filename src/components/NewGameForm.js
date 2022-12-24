@@ -76,7 +76,11 @@ function NewGameForm(props) {
   }
 
   return (
-    <form className={classes.form} onSubmit={createHandler}>
+    <form
+      className={classes.form}
+      onSubmit={createHandler}
+      style={{ marginTop: "90px" }}
+    >
       <h2>Create a new game</h2>
       <div className={classes.pickers}>
         <div className={classes.grey}>

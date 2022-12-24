@@ -51,7 +51,6 @@ function CalendarPage() {
         if (end.getTime() > Date.now()) {
           gamesData.push(game);
         }
-        console.log(game);
       });
       setGames(gamesData);
       setLoading(false);
